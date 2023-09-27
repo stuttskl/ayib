@@ -18,7 +18,10 @@ export const HomeScreen = ({ navigation }: Props) => {
         <View>
             <Text>A Year In Books</Text>
 
-            <PrimaryButton title={"Add a book"} onPress={() => {}} />
+            <PrimaryButton
+                title={"Add a book"}
+                onPress={() => navigation.navigate("AddBook")}
+            />
             <Button
                 title="Go to dashboard"
                 onPress={() => navigation.navigate("Dashboard")}

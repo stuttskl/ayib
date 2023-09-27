@@ -10,6 +10,7 @@ import { HomeScreen } from "./scenes/home/Home";
 import DashboardScreen from "./scenes/dashboard/Dashboard";
 import { ContainerProvider } from "./ContainerProvider";
 import { container } from "./DIContainer";
+import { AddBookScreen } from "./scenes/addBook/AddBook";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -22,6 +23,7 @@ const MyStack = () => {
                 options={{ title: "ayib" }}
             />
             <RootStack.Screen name="Dashboard" component={DashboardScreen} />
+            <RootStack.Screen name="AddBook" component={AddBookScreen} />
             <RootStack.Screen name="SignUp" component={SignUpScreen} />
         </RootStack.Navigator>
     );
