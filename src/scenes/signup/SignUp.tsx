@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { Button, SafeAreaView, StyleSheet, TextInput } from "react-native";
-import auth from "@react-native-firebase/auth";
+import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { PrimaryButton } from "../../ui-kit/PrimaryButton";
+import { IAuthService } from "../../services/AuthService";
+import { container } from "../../DIContainer";
+import { TYPES } from "../../Types";
 
 export const SignUpScreen = () => {
+    const authService: IAuthService = container.get<IAuthService>(
+        TYPES.IAuthService
+    );
+
     const [email, onChangeEmail] = useState<string>("");
     const [password, onChangePassword] = useState<string>("");
 
     const createAccount = () => {
-        auth()
-            .createUserWithEmailAndPassword(email, password)
+        authService
+            .signUp(email, password)
             .then(() => {
                 console.log("User account created & signed in!");
             })
@@ -42,7 +49,7 @@ export const SignUpScreen = () => {
                 placeholder="password"
                 autoCapitalize="none"
             />
-            <Button title={"Sign Up"} onPress={createAccount} />
+            <PrimaryButton title={"Sign Up"} onPress={createAccount} />
         </SafeAreaView>
     );
 };

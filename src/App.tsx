@@ -8,6 +8,8 @@ import { SignInScreen } from "./scenes/signin/SignIn";
 import { SignUpScreen } from "./scenes/signup/SignUp";
 import { HomeScreen } from "./scenes/home/Home";
 import DashboardScreen from "./scenes/dashboard/Dashboard";
+import { ContainerProvider } from "./ContainerProvider";
+import { container } from "./DIContainer";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -50,9 +52,11 @@ const App = () => {
     }
 
     return (
-        <NavigationContainer>
-            <MyStack />
-        </NavigationContainer>
+        <ContainerProvider container={container}>
+            <NavigationContainer>
+                <MyStack />
+            </NavigationContainer>
+        </ContainerProvider>
     );
 };
 

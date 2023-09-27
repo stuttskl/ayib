@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import { Button, SafeAreaView, StyleSheet, TextInput } from "react-native";
-import auth from "@react-native-firebase/auth";
+import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { PrimaryButton } from "../../ui-kit/PrimaryButton";
+import { IAuthService } from "../../services/AuthService";
+import { container } from "../../DIContainer";
+import { TYPES } from "../../Types";
 
 export const SignInScreen = () => {
+    const authService: IAuthService = container.get<IAuthService>(
+        TYPES.IAuthService
+    );
+
     const [email, onChangeEmail] = useState<string>("");
     const [password, onChangePassword] = useState<string>("");
 
     const handleSignIn = async () => {
-        try {
-            const userCredential = await auth().signInWithEmailAndPassword(
-                email,
-                password
-            );
-            console.log("User signed in:", userCredential.user.uid);
-        } catch (error) {
-            console.error("Sign-in error:", error);
-        }
+        authService
+            .logIn(email, password)
+            .then(() => {
+                console.log("Successfully signed you in!");
+            })
+            .catch(error => {
+                console.error("Error signing you in: ", error);
+            });
     };
 
     return (
@@ -35,7 +41,7 @@ export const SignInScreen = () => {
                 placeholder="password"
                 autoCapitalize="none"
             />
-            <Button title={"Sign In"} onPress={handleSignIn} />
+            <PrimaryButton title={"Sign In"} onPress={handleSignIn} />
         </SafeAreaView>
     );
 };
