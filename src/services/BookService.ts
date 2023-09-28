@@ -22,7 +22,6 @@ export default class BookService implements IBookService {
                     author: author,
                 })
                 .then(() => {
-                    console.log("Book added!");
                     resolve();
                 })
                 .catch(error => {
