@@ -5,6 +5,7 @@ import { TYPES } from "./Types";
 import BookService, { IBookService } from "./services/BookService";
 import { BookParser, IBookParser } from "./models/BookParser";
 import { IUserParser, UserParser } from "./models/UserParser";
+import BooksAPIService, { IBooksAPIService } from "./services/BooksAPIService";
 
 const _container = new Container();
 
@@ -23,6 +24,10 @@ _container
 _container
     .bind<IUserParser>(TYPES.IUserParser)
     .to(UserParser)
+    .inSingletonScope();
+_container
+    .bind<IBooksAPIService>(TYPES.IBooksAPIService)
+    .to(BooksAPIService)
     .inSingletonScope();
 
 export const container = _container;

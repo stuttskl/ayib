@@ -3,6 +3,7 @@ const TYPES = {
     IBookService: Symbol.for("IBookService"),
     IBookParser: Symbol.for("IBookParser"),
     IUserParser: Symbol.for("IUserParser"),
+    IBooksAPIService: Symbol.for("IBooksAPIService"),
 };
 
 export { TYPES };
