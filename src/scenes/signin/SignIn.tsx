@@ -13,7 +13,7 @@ export const SignInScreen = () => {
     const [email, onChangeEmail] = useState<string>("");
     const [password, onChangePassword] = useState<string>("");
 
-    const handleSignIn = async () => {
+    const handleSignIn = () => {
         authService
             .logIn(email, password)
             .then(() => {

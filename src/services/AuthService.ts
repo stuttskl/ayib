@@ -5,12 +5,8 @@ import { injectable } from "inversify";
 
 export interface IAuthService {
     signUp(email: string, password: string): Promise<User>;
-    logIn(
-        email: string,
-        password: string
-    ): Promise<FirebaseAuthTypes.UserCredential>;
+    logIn(email: string, password: string): Promise<void>;
     logOut(): Promise<void>;
-    getCurrentUser(): FirebaseAuthTypes.User | null;
 }
 
 @injectable()
@@ -23,7 +19,7 @@ export default class AuthService implements IAuthService {
     }
 
     async signUp(email: string, password: string): Promise<User> {
-        try {
+        return new Promise(async (resolve, reject) => {
             const userCredential =
                 await this.auth.createUserWithEmailAndPassword(email, password);
             const user = new User(
@@ -40,33 +36,37 @@ export default class AuthService implements IAuthService {
                     library: [],
                 })
                 .then(() => {
-                    console.log("User added!");
+                    resolve(user);
                 })
                 .catch(error => {
-                    throw new Error(error.message);
+                    reject(error);
                 });
-
-            console.log("Document created with ID:", user.uid);
-            return user;
-        } catch (error) {
-            console.error("Error creating user:", error);
-            throw error; // Rethrow the error to handle it where the signUp function is called
-        }
+        });
     }
 
-    async logIn(
-        email: string,
-        password: string
-    ): Promise<FirebaseAuthTypes.UserCredential> {
-        return this.auth.signInWithEmailAndPassword(email, password);
+    logIn(email: string, password: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.auth
+                .signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    resolve();
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
     }
 
-    async logOut(): Promise<void> {
-        return this.auth.signOut();
-    }
-
-    // Get the current user
-    getCurrentUser(): FirebaseAuthTypes.User | null {
-        return this.auth.currentUser;
+    logOut(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.auth
+                .signOut()
+                .then(() => {
+                    resolve();
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
     }
 }
